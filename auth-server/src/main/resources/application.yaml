@@ -1,0 +1,43 @@
+server:
+  address: 127.0.0.1 
+  port: 9000
+spring:  
+  application:
+    name: auth-server
+    
+  security:
+    user:
+
+      # Definition of the user details that we will use for login
+      # in the authorization server
+      name: user
+      password: "{noop}user"
+      roles: USER  
+    oauth2:
+      authorizationserver:
+        client:
+          stock-portfolio-client:
+            registration:
+              client-id: "stock-portfolio-client"
+              client-secret: "{noop}secret"
+              client-authentication-methods:
+                - "client_secret_basic"
+              authorization-grant-types:
+                - "authorization_code"
+                - "refresh_token"
+              redirect-uris:
+                - "http://127.0.0.1:9000/*"                
+              scopes:
+                - "openid"
+                - "profile"
+                - "read"
+                - "write"
+            require-authorization-consent: false      
+
+logging:
+  level:
+    org:
+      springframework:
+        security: TRACE
+        web: INFO
+    root: INFO
