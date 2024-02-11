@@ -1,4 +1,4 @@
-package com.ro.stockservice.config;
+package com.ro.portfolioservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +13,11 @@ public class SecurityConfig {
 
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http.securityMatcher("/api/v1/stocks/**")
-				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/swagger-ui/**").permitAll()
-						.requestMatchers("/v3/api-docs").permitAll().anyRequest().hasAuthority("SCOPE_read"))
+		http.securityMatcher("/api/v1/portfolios/**")
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers("/swagger-ui/**").permitAll()
+						.requestMatchers("/v3/api-docs").permitAll()
+						.anyRequest().hasAuthority("SCOPE_read"))
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
 		return http.build();
 	}
